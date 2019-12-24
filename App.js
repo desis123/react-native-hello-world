@@ -4,8 +4,11 @@ import
 StyleSheet,
 View,
 Text,
-FlatList
-} from 'react-native'
+FlatList,
+TouchableWithoutFeedback,
+Keyboard
+} from 'react-native' 
+
 import Header from './components/Header'
 import TodoItem from './components/TodoItem'
 import AddTodo from './components/AddTodo'
@@ -52,6 +55,7 @@ const App =()=>{
 
 
     return(
+        <TouchableWithoutFeedback onPress ={()=> Keyboard.dismiss()}>
         <View style={styles.container}>
           
                 <Header />
@@ -66,7 +70,7 @@ const App =()=>{
           </View>  
            
         </View>
-
+        </TouchableWithoutFeedback>
     )
 }
 export default App 
