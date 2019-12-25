@@ -4,8 +4,11 @@ import
 StyleSheet,
 View,
 Text,
-FlatList
-} from 'react-native'
+FlatList,
+TouchableWithoutFeedback,
+Keyboard
+} from 'react-native' 
+
 import Header from './components/Header'
 import TodoItem from './components/TodoItem'
 import AddTodo from './components/AddTodo'
@@ -52,40 +55,40 @@ const App =()=>{
 
 
     return(
+        <TouchableWithoutFeedback onPress ={()=> Keyboard.dismiss()}>
         <View style={styles.container}>
-          
-                <Header />
-                 <AddTodo submitHandler ={submitHandler} />
+           <Header />
+             <View style={styles.content}>
+               <AddTodo submitHandler ={submitHandler} />
 
-          <View style= {styles.item}>
-          <FlatList 
-            data ={todos}
-            renderItem = {({item}) => (<TodoItem item ={item} pressHandler = {pressHandler} />) }
-           />
-              
-          </View>  
-           
+                 <View style= {styles.list}>
+                    <FlatList 
+                        data ={todos}
+                        renderItem = {({item}) => (<TodoItem item ={item} pressHandler = {pressHandler} />) }
+                    />
+                        
+                </View>  
+            </View>
         </View>
-
+    </TouchableWithoutFeedback>
     )
 }
 export default App 
 
 
 const styles = StyleSheet.create({
- container :{
-     flex:1,
-    
-
- },
-
- item :{
-     padding :40,
-
- },
- listitem :{
-     padding:20,
-
- }
-
-})
+    container: {
+      flex: 1,
+      backgroundColor: '#fff',
+    },
+    content: {
+      padding: 40,
+      //backgroundColor: 'grey',
+      flex: 1,
+    },
+    list: {
+      marginTop: 20,
+      //backgroundColor: 'lightgrey',
+      flex: 1,
+    },
+  });
