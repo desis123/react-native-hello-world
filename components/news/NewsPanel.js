@@ -7,15 +7,18 @@ Text,
 FlatList,
 TouchableWithoutFeedback,
 Keyboard,
-SafeAreaView, ScrollView
+SafeAreaView, ScrollView , Dimensions
 } from 'react-native' 
 
 import NewsItem from './NewsItem'
 
 const NewsPanel = ({data, ...rest}) => { //this destructuring
+  const{style,titleStyle,ctaText,title,onCTAPress} = rest;
+
 
     return (
-        <View style= {styles.list}>
+      <View style={[styles.container,style]}>
+      {title && <Header title={title} style={titleStyle} ctaText={ctaText} onPress={onCTAPress} />}       
           <FlatList 
              horizontal = {rest.isHorizontal}
              numColumns={rest.cols > 2 ? 2 : rest.cols} 
@@ -26,7 +29,8 @@ const NewsPanel = ({data, ...rest}) => { //this destructuring
             keyExtractor={(item , index)=> `new_${item.title}${index.toString()}`}
             ItemSeparatorComponent ={() => <View style={{width:10}}></View>}
             showsHorizontalScrollIndicator={false}
-           // ListHeaderComponent ={()=><View><Text>This is Header</Text></View>}ad
+            //ListHeaderComponent ={()=><View><Text>This is Header</Text></View>}
+            
          /> 
         
       </View>
@@ -35,13 +39,61 @@ const NewsPanel = ({data, ...rest}) => { //this destructuring
 
 export default NewsPanel
 
+
+const Header = ({title, ctaText, onPress, style}) => {
+  return (
+      <View style={styles.sectionHeader}>
+          <Text style={[styles.sectionHeaderText, style]}>{title}</Text>
+          {onPress && <Text style={[style, styles.cta]} onPress={onPress}>{ctaText}</Text>}
+      </View>
+  )
+};
+
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#ffffff'
+},
    
     list: {
       marginTop: 10,
       //backgroundColor: 'lightgrey',
       flex: 1,
     },
+    cta: {
+      color: "#D1644F",
+      fontSize: 14,
+      fontWeight: '500',
+      
+     
+  },
+
+  sectionHeader: {
+    flexDirection: "row",
+    alignItems: 'center',
+    //justifyContent: 'center',
+    padding: 8 * 1.5,
+    justifyContent: 'space-between',
+},
+
+sectionHeaderText: {
+  color: '#363434',
+  fontSize: 19,
+  fontWeight: 'bold',
+  
+  //flex: 1
+},
 
     
   });
+  NewsPanel.defaultProps = {
+   
+    
+    style: {},
+   title : "my Title",
+    
+    titleStyle: {},
+    ctaText: "View All",
+    onCTAPress: null,
+    cols: 0,
+    showDivider:true
+};
