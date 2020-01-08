@@ -6,71 +6,120 @@ View,
 Text,
 FlatList,
 TouchableWithoutFeedback,
-Keyboard
+Keyboard,
+SafeAreaView, ScrollView,Alert ,Dimensions
 } from 'react-native' 
 
 import Header from './components/Header'
-import TodoItem from './components/TodoItem'
-import AddTodo from './components/AddTodo'
+import NewsItem from './components/news/NewsItem'
+import NewsPanel from './components/news/NewsPanel'
+import Articles from './data/newsData.js'
+import BanglaNews from './data/tazaNewsData.js'
+
+
+
+
 
 const App =()=>{
 
     console.log("App Started");
 
     const [todos, setTodos ] = useState(
-        [
-            { text: 'buy coffee', key: '1' },
-            { text: 'create an app', key: '2' },
-            { text: 'play on the switch', key: '3' }
-          ]
+        BanglaNews
     )
+
+    const [windowsWidth, setWindowsWidth] = useState(Dimensions.get('window').width);
+    contentSizeChangeHandler =()=>{
+        setWindowsWidth(Dimensions.get('window').width);
+    }
+
+
+    //const [windowsWidth, setwindowsWidth] = 
 
 
     const pressHandler =(id)=>{ 
 
-     setTodos( prevTodos =>  // Return should be an array . so we are just making a new array ... but using filter.
-         prevTodos.filter( item => item.key !== id)
-    );
+        Alert.alert(
+            `Alert Title${id}`,
+            'My Alert Msg',
+            [
+              {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
+              {
+                text: 'Cancel',
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel',
+              },
+              {text: 'OK', onPress: () => console.log('OK Pressed')},
+            ],
+            {cancelable: false},
+          );
+
+    //  setTodos( prevTodos =>  // Return should be an array . so we are just making a new array ... but using filter.
+    //      prevTodos.filter( item => item.key !== id)
+    // );
        
 
     }
 
-    const submitHandler =(text) =>{
-
-          setTodos((prevTodos) => {
-           //We have to retun an array ... which wll have all the previous object, along with new object whose
-           //text would be new text, we will use ...rest operator
-            return [
-                {text: text , key : Math.random().toString()},
-
-                ...prevTodos
-
-            ]
-          })
-
-
-        
-
-    }
+    let isHorizontal = true;
+   
+   
 
 
     return(
-        <TouchableWithoutFeedback onPress ={()=> Keyboard.dismiss()}>
-        <View style={styles.container}>
-           <Header />
-             <View style={styles.content}>
-               <AddTodo submitHandler ={submitHandler} />
 
-                 <View style= {styles.list}>
-                    <FlatList 
-                        data ={todos}
-                        renderItem = {({item}) => (<TodoItem item ={item} pressHandler = {pressHandler} />) }
-                    />
-                        
-                </View>  
-            </View>
-        </View>
-    </TouchableWithoutFeedback>
+        <ScrollView  contentInsetAdjustmentBehavior="automatic" onContentSizeChange ={contentSizeChangeHandler}>
+        <SafeAreaView  style={{flex: 1}}>      
+      
+         <View style={styles.container} >
+             <Header />
+             <View style={styles.content} >
+              <NewsPanel 
+              title = "Politics"
+              onCTAPress={() => (console.log("OnPress I did it"))}
+               data={todos} 
+               pressHandler = {pressHandler}
+               isHorizontal ={true}
+               myextrapropsfornewsitem = "."
+               cols ={1}
+               winWidth = {windowsWidth}
+                />
+
+              <NewsPanel 
+              title ="National"
+              onCTAPress={() => (console.log("OnPress I did it"))}
+               data={todos} 
+               pressHandler = {pressHandler}
+               isHorizontal = {false}
+               myextrapropsfornewsitem = "."
+               cols ={2}
+               winWidth = {windowsWidth}
+                />
+
+            <NewsPanel 
+               title ="LifeStyle"
+
+               onCTAPress={() => (console.log("OnPress I did it"))}
+               data={todos} 
+               pressHandler = {pressHandler}
+               isHorizontal ={true}
+               myextrapropsfornewsitem = "."
+               cols ={1}
+               winWidth = {windowsWidth}
+                />
+
+                
+             
+               
+             
+                 
+             </View>
+         </View> 
+         </SafeAreaView>
+         </ScrollView> 
+        
+
+    
     )
 }
 export default App 
@@ -82,12 +131,12 @@ const styles = StyleSheet.create({
       backgroundColor: '#fff',
     },
     content: {
-      padding: 40,
+      padding: 20,
       //backgroundColor: 'grey',
       flex: 1,
     },
     list: {
-      marginTop: 20,
+      marginTop: 10,
       //backgroundColor: 'lightgrey',
       flex: 1,
     },
