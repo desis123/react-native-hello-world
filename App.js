@@ -7,137 +7,206 @@ Text,
 FlatList,
 TouchableWithoutFeedback,
 Keyboard,
-SafeAreaView, ScrollView,Alert ,Dimensions
+SafeAreaView, ScrollView,Alert ,Dimensions, Button
 } from 'react-native' 
-
-import Header from './components/Header'
-import NewsItem from './components/news/NewsItem'
-import NewsPanel from './components/news/NewsPanel'
-import Articles from './data/newsData.js'
-import BanglaNews from './data/tazaNewsData.js'
-
-
-
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
+import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
+import {
+    LocalNotification,
+    ScheduledLocalNotification
+  } from './src/services/LocalPushController'
+  
+  import RemotePushController from './src/services/RemotePushController'
 
 
 const App =()=>{
 
     console.log("App Started");
 
-    const [todos, setTodos ] = useState(
-        BanglaNews
-    )
-
-    const [windowsWidth, setWindowsWidth] = useState(Dimensions.get('window').width);
-    contentSizeChangeHandler =()=>{
-        setWindowsWidth(Dimensions.get('window').width);
-    }
-
-
-    //const [windowsWidth, setwindowsWidth] = 
-
-
-    const pressHandler =(id)=>{ 
-
-        Alert.alert(
-            `Alert Title${id}`,
-            'My Alert Msg',
-            [
-              {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
-              {
-                text: 'Cancel',
-                onPress: () => console.log('Cancel Pressed'),
-                style: 'cancel',
-              },
-              {text: 'OK', onPress: () => console.log('OK Pressed')},
-            ],
-            {cancelable: false},
-          );
-
-    //  setTodos( prevTodos =>  // Return should be an array . so we are just making a new array ... but using filter.
-    //      prevTodos.filter( item => item.key !== id)
-    // );
-       
-
-    }
-
-    let isHorizontal = true;
    
+
+  
+    
    
 
 
     return(
 
-        <ScrollView  contentInsetAdjustmentBehavior="automatic" onContentSizeChange ={contentSizeChangeHandler}>
-        <SafeAreaView  style={{flex: 1}}>      
-      
-         <View style={styles.container} >
-             <Header />
-             <View style={styles.content} >
-              <NewsPanel 
-              title = "Politics"
-              onCTAPress={() => (console.log("OnPress I did it"))}
-               data={todos} 
-               pressHandler = {pressHandler}
-               isHorizontal ={true}
-               myextrapropsfornewsitem = "."
-               cols ={1}
-               winWidth = {windowsWidth}
-                />
 
-              <NewsPanel 
-              title ="National"
-              onCTAPress={() => (console.log("OnPress I did it"))}
-               data={todos} 
-               pressHandler = {pressHandler}
-               isHorizontal = {false}
-               myextrapropsfornewsitem = "."
-               cols ={2}
-               winWidth = {windowsWidth}
-                />
+        // Addition for push notifition
 
-            <NewsPanel 
-               title ="LifeStyle"
+     
+    //end Addition for push notification
 
-               onCTAPress={() => (console.log("OnPress I did it"))}
-               data={todos} 
-               pressHandler = {pressHandler}
-               isHorizontal ={true}
-               myextrapropsfornewsitem = "."
-               cols ={1}
-               winWidth = {windowsWidth}
-                />
-
-                
-             
-               
-             
-                 
-             </View>
-         </View> 
-         </SafeAreaView>
-         </ScrollView> 
+        <AppContainer />
         
 
     
     )
 }
-export default App 
 
 
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#fff',
+      justifyContent: 'center',
+      alignItems: 'center'
     },
-    content: {
-      padding: 20,
-      //backgroundColor: 'grey',
-      flex: 1,
+    buttonContainer: {
+      marginTop: 20
+    }
+  })
+export default App 
+
+
+
+
+const Dashboard = ({navigation}) => {
+
+
+    const handleButtonPress = () => {
+        LocalNotification()
+      }
+    
+      const handleScheduleNotification = () => {
+        ScheduledLocalNotification()
+      }
+    
+    return (
+
+       
+        
+        <View>
+
+<Text>Press a button to trigger the notification</Text>
+        <View style={{ marginTop: 20 }}>
+          <Button title={'Local Push Notification'} onPress={handleButtonPress} />
+        </View>
+        <View style={{ marginTop: 20 }}>
+          <Button
+            title={'Scheduled Local Push Notification'}
+            onPress={handleScheduleNotification}
+          />
+        </View>
+        <RemotePushController />
+
+
+<Text>Home Screen</Text>
+            
+            <Button
+            title="Go to Detail"
+            onPress={() => navigation.navigate('Category' ,
+            {
+            itemId : 1,
+            fulltext : "This is Fulltext",
+            }
+          
+          )}
+        />
+        </View>
+    )
+}
+
+
+
+const Category  = ({navigation}) => {
+    return (
+        <View>
+            <Text>Category Screen</Text>
+
+            <Button
+            title="Go to Detail"
+          onPress={() => navigation.navigate('Category' ,
+          {
+            itemId: Math.floor(Math.random() * 100),
+          }
+          )} />
+
+<Text>itemId: {JSON.stringify(navigation.getParam('itemId', 'NO-ID'))} </Text>
+<Text>
+          otherParam:
+          {JSON.stringify(navigation.getParam('fulltext', 'default value'))}
+        </Text>
+
+        </View>
+    )
+} 
+
+
+
+const Settings = ({navigation}) => {
+
+ switch(navigation.state.routeName) {
+     case "Category": 
+     catId = 1;
+     break;
+     case "Settings":
+     catId = 2;
+     break;
+     case "Feed" :
+     catId = 3;
+     break;
+     case "Now" :
+     catId = 4 ;
+     break;
+     default :
+     catId = 5;            
+ }
+
+    return (
+        <View>
+<Text>Settings{navigation.state.routeName}</Text>
+<GetCategory  catID ={catId}/>
+        </View>
+    )
+}
+
+
+        const GetCategory = ({catID}) =>{
+            return (
+                <View>
+        <Text>This is Text View {catID}</Text>
+                </View>
+            )
+        }
+
+const AppNavigator = createMaterialTopTabNavigator(
+     {
+      Home:  Dashboard,
+          
+      
+      Category : Settings,
+      Settings : Settings,
+      Feed : Settings,
+      Now : Settings,
+
     },
-    list: {
-      marginTop: 10,
-      //backgroundColor: 'lightgrey',
-      flex: 1,
-    },
-  });
+    {
+        initialRouteName: 'Home',
+        
+        tabBarOptions: {
+           scrollEnabled: true,
+            activeTintColor: '#e91e63',
+            
+          },
+        nagivationOptions :{
+           
+        }  
+        
+    }, 
+
+   
+   
+ 
+
+      
+  );
+
+  const AppContainer = createAppContainer(AppNavigator);
+
+  
+
+
+
+
