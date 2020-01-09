@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "589653429567",
+    "firebase_url": "https://rnnavi-push-notification.firebaseio.com",
+    "project_id": "rnnavi-push-notification",
+    "storage_bucket": "rnnavi-push-notification.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:589653429567:android:e3874a8696461c70ea978a",
+        "android_client_info": {
+          "package_name": "com.rnnavi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "589653429567-2dvd0hbebc3ibb9ka2ifq0bihehbbop9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAenZpWUZIQBGFHwLf9yCUdi7KNOb9xdLg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "589653429567-2dvd0hbebc3ibb9ka2ifq0bihehbbop9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
