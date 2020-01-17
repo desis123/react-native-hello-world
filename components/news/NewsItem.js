@@ -1,26 +1,26 @@
 import React , { useState } from 'react'
-import { StyleSheet , View , Text , TouchableOpacity ,Image ,Dimensions , Alert } from 'react-native'
+import { StyleSheet , View , Text , TouchableOpacity , TouchableWithoutFeedback,Image ,Dimensions , Alert } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 
-
+import { CachedImage } from 'react-native-cached-image';
 
 
    const windowWidth = Dimensions.get('window').width;
 
 
 
-const NewsItem = ({item , pressHandler , winWidth, myextrapropsfornewsitem ,cols}) => { //instead of passing arguments as just props, we destructing the property of props inside argument
+const NewsItem = ({item , pressHandler ,data, winWidth, myextrapropsfornewsitem ,cols}) => { //instead of passing arguments as just props, we destructing the property of props inside argument
 
 
 
 
   return (
-    <TouchableOpacity onPress ={() => pressHandler(item.id)}>
+    <TouchableWithoutFeedback onPress ={() => pressHandler(item.id,data)}>
    
       <View  style={ (cols >1 ) ? "" : styles.listItem} >
            
       <View style={ (cols >1 ) ? [styles.multiCol,{width:winWidth*.44} ]: [styles.containerWrapper,{width:winWidth*.75}]}>
-      <Image
+      <CachedImage
           style={(cols > 1) ? styles.MultiImageStyle :styles.imageStyle}
           source={{uri: item.thumbnail}}
         />
@@ -31,7 +31,7 @@ const NewsItem = ({item , pressHandler , winWidth, myextrapropsfornewsitem ,cols
         </View>
       </View>
       
-      </TouchableOpacity>
+      </TouchableWithoutFeedback>
  
   )
 }

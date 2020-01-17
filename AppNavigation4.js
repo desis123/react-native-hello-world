@@ -13,18 +13,9 @@ SafeAreaView, ScrollView,Alert ,Dimensions, Button
 import { Transition } from 'react-native-reanimated';
 
 import { createAppContainer } from 'react-navigation';
-import { NavigationNativeContainer , useRoute ,useLinking, } from '@react-navigation/native';
-
-import { enableScreens  } from 'react-native-screens';
-//import { createStackNavigator } from 'react-navigation-stack';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-
-
-
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-
-
+import { createStackNavigator } from 'react-navigation-stack';
+import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
+import { createDrawerNavigator } from 'react-navigation-drawer';
 import DashboardCom from './DashboardCom'
 import {
     LocalNotification,
@@ -33,46 +24,16 @@ import {
   
   import RemotePushController from './src/services/RemotePushController'
 import Article from './components/news/Article'
-
-
-
 const App =()=>{
 
-    
+    console.log("App Started");
 
-    enableScreens();
-
-    const ref = React.useRef();
-
-    const { getInitialState } = useLinking(ref, {
-      prefixes: ['http://taza-khobor.org', 'http://taza-khobor.org/bd','taza-khobor.org','tazakhobor://'],
-    });
-
-    const [isReady, setIsReady] = React.useState(false);
-  const [initialState, setInitialState] = React.useState();
-
-  React.useEffect(() => {
-    getInitialState()
-      .catch(() => {})
-      .then(state => {
-        if (state !== undefined) {
-          setInitialState(state);
-        }
-
-        setIsReady(true);
-      });
-  }, [getInitialState]);
-
-  if (!isReady) {
-    return null;
-  }
+   
 
   
     
-   console.log(initialState);
+   
 
-   console.log(ref);
-console.log("I am here with ref");
 
     return(
 
@@ -82,9 +43,7 @@ console.log("I am here with ref");
      
     //end Addition for push notification
 
-    <NavigationNativeContainer initialState={initialState} ref={ref}>
-    <MyStack />
-   </NavigationNativeContainer>
+        <AppContainer />
         
 
     
@@ -157,24 +116,21 @@ const Dashboard = ({navigation}) => {
 
 
 
-const Category  = ({ route, navigation }) => {
+const Category  = ({navigation,navigationOptions}) => {
   
 
 //    Category.navigationOptions = {
 //     title: "My Own Title",
 //     // gestureEnabled: false,
 // }
-console.log(route);
 
-  const {id} = route.params;
-  const {data} = route.params;
-console.log(data);
-console.log(id)
-  
+
+  const article_id = navigation.getParam('id');
+  const data = navigation.getParam('data');
 
   //This is required to open flatlist on intiial scroll
   
-  const indexPostionOfArticle = data.findIndex(obj => obj.id == id)
+  const indexPostionOfArticle = data.findIndex(obj => obj.id == article_id)
  
 
 
@@ -212,29 +168,28 @@ console.log(id)
 const Settings = ({navigation}) => {
 
   let catId = 4
-  const route = useRoute();
-  console.log(route);
 
-   switch(route.name) {
-       case "জাতীয়": 
-       catId = 1;
-       break;
-       case "লাইফষ্টাইল":
-       catId = 2;
-       break;
-       case "খবর" :
-       catId = 3;
-       break;
+
+  switch(navigation.state.routeName) {
+      case "জাতীয়": 
+      catId = 1;
+      break;
+      case "লাইফষ্টাইল":
+      catId = 2;
+      break;
+      case "খবর" :
+      catId = 3;
+      break;
       case "মুক্তমত" :
-       catId = 4 ;
-       break;
-       default :
-       catId = 5;            
-   }
+      catId = 4 ;
+      break;
+      default :
+      catId = 5;            
+  }
 
     return (
         <View>
-{/* <Text>Settings{navigation.state.routeName}</Text> */}
+<Text>Settings{navigation.state.routeName}</Text>
 <GetCategory  catID ={catId}/>
         </View>
     )
@@ -249,53 +204,83 @@ const Settings = ({navigation}) => {
             )
         }
 
-
-
-
-const Tab = createMaterialTopTabNavigator();
-
-const Mytab = ()=> {
-return(
-  <Tab.Navigator
-      initialRouteName="Home"
-      tabBarOptions={{
-        activeTintColor: '#e91e63',
-        scrollEnabled:true,  
-      }}
-      lazy={true}
-      lazyPreloadDistance = {2}
- 
-    > 
+const Tab_1 = createMaterialTopTabNavigator(
+     {
+      Home:  Dashboard,
+          
+      মুক্তমত : Settings,
+      লাইফষ্টাইল : Settings,
+      খবর : Settings,
+      জাতীয় : Settings,
+     
+       
+    },
+    {
         
-                <Tab.Screen name="Home" component={DashboardCom} />
-                <Tab.Screen name="মুক্তমত" component={Settings} />
-                <Tab.Screen name="লাইফষ্টাইল" component={Settings} />
-                <Tab.Screen name="খবর" component={Settings} />
-                <Tab.Screen name="জাতীয়" component={Settings} />
+        swipeEnabled: true,
+       // animationEnabled : true,
+       barStyle: { backgroundColor: '#694fad' },
+
+       
+        tabBarOptions: {
+            activeBackgroundColor: '#fff',
+            inactiveBackgroundColor: '#8B0000',
+            activeTintColor: '#FFFFFF',
+            inactiveTintColor: '#9B9B9B',
+            scrollEnabled:true,  
+            style:{
+                backgroundColor : '#8B0000',
+
+            },
+        },
+        
+        defaultNavigationOptions: {
+          
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        },
+        
+    }, 
+);
+
+
+
+
+const Stack_1 = createStackNavigator(
+    {
+        HomeStack : Tab_1,
+        Category : {
+            screen:Category,
             
+          } 
+    },
+    {
+        initialRouteName : 'HomeStack',
+        mode: 'modal',
         
- </Tab.Navigator>
-  )
-}
+        defaultNavigationOptions: {
+            headerStyle: {
+              backgroundColor: '#8B0000',
+              height: 50,
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            gestureEnabled: true,
+          },
+    }
 
-const Stack = createNativeStackNavigator();
-//const Stack = createStackNavigator();
-
-function MyStack() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="HomeStack" component={Mytab} />
-      <Stack.Screen name="Category" 
-      component={Category}
-      
-      />
-   
-    </Stack.Navigator>
-  );
-}
+)
 
 
 
+
+
+
+  const AppContainer = createAppContainer(Stack_1);
 
   
 

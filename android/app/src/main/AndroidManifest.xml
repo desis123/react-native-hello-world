@@ -10,8 +10,11 @@
     <uses-permission android:name="${applicationId}.permission.C2D_MESSAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-    <!--End Push Notification-->
 
+    <!--End Push Notification-->
+    <!--Addition React Bolb-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <!--End React Bolb-->
     <application
       android:name=".MainApplication"
       android:label="@string/app_name"
@@ -28,6 +31,39 @@
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
+        <!--Addition Deep linking-->
+         <intent-filter android:label="filter_view_http_tazakhobor">
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <!-- Accepts URIs that begin with "http://taza-khobor.org/bd” -->
+        <data android:scheme="https"
+              android:host="taza-khobor.org"
+              android:pathPrefix="/bd" />
+        <!-- note that the leading "/" is required for pathPrefix-->
+    </intent-filter>
+
+
+
+   
+
+
+
+
+
+       <!--End Addition Deep linking-->
+
+      <!--Addtion for Second Type Deep link With Specific Schema-->
+      <intent-filter android:label="filter_view_tazakhobor_bd">
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <!-- Accepts URIs that begin with "example://gizmos” -->
+        <data android:scheme="tazakhobor"
+              android:host="bd" />
+    </intent-filter>
+     
+
       </activity>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
       <!--Addition push notification-->

@@ -20,7 +20,7 @@ import BanglaNews from './data/tazaNewsData.js'
 
 
 
-const App =()=>{
+const DashboardCom =({navigation})=>{
 
     console.log("App Started");
 
@@ -37,22 +37,23 @@ const App =()=>{
     //const [windowsWidth, setwindowsWidth] = 
 
 
-    const pressHandler =(id)=>{ 
+    const pressHandler =(id,data)=>{ 
 
-        Alert.alert(
-            `Alert Title${id}`,
-            'My Alert Msg',
-            [
-              {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
-              {
-                text: 'Cancel',
-                onPress: () => console.log('Cancel Pressed'),
-                style: 'cancel',
-              },
-              {text: 'OK', onPress: () => console.log('OK Pressed')},
-            ],
-            {cancelable: false},
-          );
+      navigation.push('Category',{id : id, data:data})
+        // Alert.alert(
+        //     `Alert Title${id}`,
+        //     'My Alert Msg',
+        //     [
+        //       {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
+        //       {
+        //         text: 'Cancel',
+        //         onPress: () => console.log('Cancel Pressed'),
+        //         style: 'cancel',
+        //       },
+        //       {text: 'OK', onPress: () => console.log('OK Pressed')},
+        //     ],
+        //     {cancelable: false},
+        //   );
 
     //  setTodos( prevTodos =>  // Return should be an array . so we are just making a new array ... but using filter.
     //      prevTodos.filter( item => item.key !== id)
@@ -68,13 +69,12 @@ const App =()=>{
 
     return(
 
-        <ScrollView  contentInsetAdjustmentBehavior="automatic" onContentSizeChange ={contentSizeChangeHandler}>
-        <SafeAreaView  style={{flex: 1}}>      
-      
-         <View style={styles.container} >
-             <Header />
-             <View style={styles.content} >
-              <NewsPanel 
+        
+          
+      <View>
+        <ScrollView>
+       
+             {/* <NewsPanel 
               title = "Politics"
               onCTAPress={() => (console.log("OnPress I did it"))}
                data={todos} 
@@ -83,9 +83,10 @@ const App =()=>{
                myextrapropsfornewsitem = "."
                cols ={1}
                winWidth = {windowsWidth}
-                />
-
-               <NewsPanel 
+                />   */}
+         <View>
+           <Text>Title 1</Text>
+              <NewsPanel 
               title ="National"
               onCTAPress={() => (console.log("OnPress I did it"))}
                data={todos} 
@@ -94,9 +95,11 @@ const App =()=>{
                myextrapropsfornewsitem = "."
                cols ={2}
                winWidth = {windowsWidth}
-                /> 
-
-            <NewsPanel 
+                />  
+        </View>
+        <View>
+        <Text>Title 2</Text> 
+               <NewsPanel 
                title ="LifeStyle"
 
                onCTAPress={() => (console.log("OnPress I did it"))}
@@ -106,23 +109,21 @@ const App =()=>{
                myextrapropsfornewsitem = "."
                cols ={1}
                winWidth = {windowsWidth}
-                /> 
+                />   
+        </View>
 
                 
              
                
              
                  
-             </View>
-         </View> 
-         </SafeAreaView>
-         </ScrollView> 
         
-
-    
+       
+  </ScrollView>
+</View> 
     )
 }
-export default App 
+export default DashboardCom 
 
 
 const styles = StyleSheet.create({

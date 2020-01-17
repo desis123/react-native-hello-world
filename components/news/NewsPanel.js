@@ -20,15 +20,37 @@ const NewsPanel = ({data, ...rest}) => { //this destructuring
       <View style={[styles.container,style]}>
       {title && <Header title={title} style={titleStyle} ctaText={ctaText} onPress={onCTAPress} />}       
           <FlatList 
+
+
+
              horizontal = {rest.isHorizontal}
              numColumns={rest.cols > 2 ? 2 : rest.cols} 
              
             //end conditional ///
             data ={data}
-            renderItem = {({item}) => (<NewsItem item ={item} {...rest} />) } //this spread operator
+            renderItem = {({item,index}) => (<NewsItem item ={item} data={data} {...rest} />) } //this spread operator
             keyExtractor={(item , index)=> `new_${item.title}${index.toString()}`}
             ItemSeparatorComponent ={() => <View style={{width:10}}></View>}
             showsHorizontalScrollIndicator={false}
+
+
+           // This is required for Full news view like 
+            // getItemLayout={(data, index) => ({
+            //   length: Dimensions.get('window').width, //- Here
+            //   offset: Dimensions.get('window').width * index,
+            //     index,
+            //   }
+            // )}
+            // initialScrollIndex ={4}
+             //initialNumToRender ={10}
+            //End This is required for full news view
+
+
+
+            
+
+
+           
             //ListHeaderComponent ={()=><View><Text>This is Header</Text></View>}
             
          /> 
