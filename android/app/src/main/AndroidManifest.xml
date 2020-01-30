@@ -38,8 +38,9 @@
         <category android:name="android.intent.category.BROWSABLE" />
         <!-- Accepts URIs that begin with "http://taza-khobor.org/bd” -->
         <data android:scheme="https"
-              android:host="taza-khobor.org"
-              android:pathPrefix="/bd" />
+              android:host="bdkotha.com"
+              android:pathPattern=".*"
+              android:pathPrefix="/" />
         <!-- note that the leading "/" is required for pathPrefix-->
     </intent-filter>
 
@@ -59,7 +60,7 @@
         <category android:name="android.intent.category.DEFAULT" />
         <category android:name="android.intent.category.BROWSABLE" />
         <!-- Accepts URIs that begin with "example://gizmos” -->
-        <data android:scheme="tazakhobor"
+        <data android:scheme="bdkotha"
               android:host="bd" />
     </intent-filter>
      

@@ -21,7 +21,7 @@ import Share from 'react-native-share';
 
 
 
-const Article = ({data,itemIndex}) =>{
+const Articlepage = ({data,itemIndex}) =>{
    // data =[{id:1},{id:2},{id:3},{id:4},{id:5},{id:6},{id:7},{id:8},{id:9},{id:10}]
 
 
@@ -118,7 +118,7 @@ const [newData,setNewData] = useState(array2);
 
 }
 
-export default Article
+export default Articlepage
 
 
 const ArticleItem = ({item,itemIndex}) => { //instead of passing arguments as just props, we destructing the property of props inside argument

@@ -28,7 +28,13 @@ import Share from 'react-native-share';
 import images from './images/imagesBase64';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import * as Animatable from 'react-native-animatable';
+
+import AwesomeButton from "react-native-really-awesome-button";
+
+
 const AnimatableIcon = Animatable.createAnimatableComponent(Icon);
+
+
 
 const App = () => {
 
@@ -95,11 +101,8 @@ const App = () => {
    */
   const shareEmailImage = async () => {
     const shareOptions = {
-      title: 'Share file',
-      email: 'email@example.com',
-      social: Share.Social.EMAIL,
-      failOnCancel: false,
-      urls: [images.image1, images.image2],
+      title: 'This is Title',
+      url: "https://bdkotha.com/amusement/49814-2020-01-18-11-36-31",
     };
 
     try {
@@ -138,7 +141,7 @@ const App = () => {
     const shareOptions = {
       title: 'This is Title',
       url: "http://dailyrightnow.com/more/law/5171-2020-01-14-06-58-19",
-      social: Share.Social.GOOGLEPLUS,
+      social: Share.Social.FACEBOOK,
       //message : "This is message"
       
       
@@ -156,6 +159,28 @@ const App = () => {
 
 //For Animation
 
+
+  async function shareSingleImage2 ()  {
+    const shareOptions = {
+      title: 'This is Title',
+      url: "http://dailyrightnow.com/more/law/5171-2020-01-14-06-58-19",
+      social: Share.Social.FACEBOOK,
+      //message : "This is message"
+      
+      
+    };
+
+    try {
+      const ShareResponse = await Share.shareSingle(shareOptions);
+      setResult(JSON.stringify(ShareResponse, null, 2));
+      console.log(ShareResponse);
+    } catch (error) {
+      console.log('Error =>', error);
+      setResult('error: '.concat(getErrorString(error)));
+    }
+  };
+
+  
 
 
 const  handlePressIn = () => {
@@ -234,8 +259,11 @@ const animatedStyle = {
 }
 
 
+
   return (
     <View style={styles.container}>
+
+      
       <Text style={styles.welcome}>Welcome to React Native Share Example!</Text>
       <View style={styles.optionsRow}>
         <View style={styles.button}>
@@ -255,9 +283,10 @@ const animatedStyle = {
     }}>
 
 
+<FbButton />
 <TouchableWithoutFeedback 
-onPressIn={myOwnHandler}
-
+onPressIn={handlePressIn}
+onPressOut={handlePressOut}
 >
           <Animated.Image
             //We are showing the Image from online
@@ -270,7 +299,8 @@ onPressIn={myOwnHandler}
 </TouchableWithoutFeedback>
 
 <TouchableWithoutFeedback 
-onPressIn={myOwnHandler}
+onPressIn={handlePressIn1}
+onPressOut={handlePressOut1}
 
 
 >
@@ -285,11 +315,21 @@ onPressIn={myOwnHandler}
 </TouchableWithoutFeedback>
 
 
-      <TouchableWithoutFeedback  onPress ={shareSingleImage}>
+<AwesomeButton 
+ progress
+ onPress={next => {
+  shareSingleImage().then(next())
+}}
+ 
+
+style={styles.button} type="facebook" size="medium">
           <Icon name="facebook" size={30}  style={[{color:"#3b5998"}]} />
-          </TouchableWithoutFeedback>
+          </AwesomeButton>
           
         <AnimatableIcon name="facebook-messenger" size={30}  style={{color:"#0084FF"}} />
+
+       
+
         <Icon name="whatsapp" size={30}  style={{color:"#25D366"}} />
         <Icon name="google" size={30}  style={{color:"#FF3E30"}} />
         <Icon name="share-alt" size={30}  style={{color:"#3b5998"}} />
@@ -322,7 +362,8 @@ onPressIn={myOwnHandler}
 
 const styles = StyleSheet.create({
   button: {
-    marginBottom: 10,
+    marginTop: 0,
+    marginBottom: 0
   },
   container: {
     flex: 1,
@@ -377,3 +418,21 @@ const styles = StyleSheet.create({
 });
 
 export default App;
+
+
+function AweButton() {
+  return <AwesomeButton>Text</AwesomeButton>;
+}
+
+function FbButton(){
+  return <AwesomeButton progress ={true}  borderRadius={50} height={26} width={26} >
+    <Image
+            //We are showing the Image from online
+            source={
+             require('./images/what.png')}
+            
+            style={styles.ImageIconStyle}
+            
+            />
+  </AwesomeButton>
+}

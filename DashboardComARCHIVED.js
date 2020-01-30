@@ -87,6 +87,8 @@ const outdata = "Access to outdata";
        let requests = [];
        c.CATEGORIES.map((category) => {
            let url =  `${c.API_URL }[${category}]${c.API_KEY}`;
+
+           
           
            requests.push(axios.get(url))
        });
