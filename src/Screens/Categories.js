@@ -1,36 +1,20 @@
 import React from 'react'
 import {View } from 'react-native'
 import Categorypage from '../components/Categorypage'
+
+import * as c from '../constants'
 //import {  useRoute  } from '@react-navigation/native';
 
-const Categories = ({route}) => {
+const Categories = ({route , navigation}) => {
 
-    let catId = 4
-   // const route = useRoute();
-    console.log(route);
-  
-     switch(route.name) {
-         case "জাতীয়": 
-         catId = 1;
-         break;
-         case "লাইফষ্টাইল":
-         catId = 2;
-         break;
-         case "খবর" :
-         catId = 3;
-         break;
-        case "মুক্তমত" :
-         catId = 4 ;
-         break;
-         default :
-         catId = 5;            
-     }
-  
+   
+
+    let catId = c.TAB_CATEGOIRES[route.name];
+    let cat_name = c.TAB_CATEGOIRES_BN_TO_EN[route.name];
       return (
-          <View>
-  {/* <Text>Settings{navigation.state.routeName}</Text> */}
-  <Categorypage  catID ={catId}/>
-          </View>
+    
+  <Categorypage  catID ={catId} CAT_NAME={cat_name} navigation={navigation}  />
+        
       )
   }
 

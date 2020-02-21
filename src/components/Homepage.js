@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from 'axios';
 import * as c from '../constants'
 import { fetch_news } from "../redux/actions";
-import FastImage from 'react-native-fast-image'
+
 import { CachedImage } from 'react-native-cached-image';
 import isEqual from 'lodash/isEqual'
 //var fp = require('lodash/fp');
@@ -84,7 +84,7 @@ const Homepage = ({navigation}) => {
      
       let url = `${c.API_URL}[${cat_id}]${c.API_KEY}`;
       //const url = 'https://tutorialsha.com/api/json_key_data?page=${page}';
-      //console.log(url);
+      console.log(url);
 
       axios.get(url)
         .then(res => {
@@ -108,7 +108,7 @@ const Homepage = ({navigation}) => {
 
            } else{
 
-            // console.log("DIFFERENT DATA FROM SERVER");
+             console.log("DIFFERENT DATA FROM SERVER");
             // console.log(res.data[category_name]);
 
 
@@ -139,7 +139,7 @@ const Homepage = ({navigation}) => {
 
     if (touchEnable) {
 
-    //   console.log("Firing MakeReq");
+       console.log("Firing MakeReq");
       if (c.CATEGORIES.length >= page) {
         setPage(page + 1);
 
@@ -217,15 +217,17 @@ const getItemLayout = sectionListGetItemLayout({
           <RenderItemMemo item={item} index={index}  navigation={navigation} data={data} />
         }
         renderSectionHeader={({ section }) => <Text style={styles.sectionHeader}>{section.title}</Text>}
-        keyExtractor={(item, index) => index}
+        keyExtractor={(item, index) => item.id}
         ListFooterComponent={renderFooter}
         onEndReached={handleLoadMore}
-        onEndReachedThreshold={.9}
+        onEndReachedThreshold={10}
 
-        initialNumToRender={20}
+        initialNumToRender={10}
         windowSize={45}
         getItemLayout={getItemLayout}
-
+        removeClippedSubviews ={true}
+        maxToRenderPerBatch={10}
+       // updateCellsBatchingPeriod={25}
       />
     </View>
   );
@@ -239,7 +241,8 @@ export default Homepage
 const RenderItem = ({ item, index , data,navigation}) => {
   const { id, title, category_title, thumbnail } = item;
 
-  console.log(category_title)
+ // console.log("render_row")
+  //console.log(index)
 
  
   for(var i = 0; i < data.length; i++) {

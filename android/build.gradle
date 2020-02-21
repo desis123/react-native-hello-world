@@ -9,8 +9,14 @@ buildscript {
         //This is addition for Push Notification
         supportLibVersion = "28.0.0"
         googlePlayServicesVersion = "16.1.0" // default: "+"
-        firebaseVersion = "17.3.4" // default: "+
+        firebaseVersion = "17.3.4" // default: "+  //this is conflict with react nativedevice info ..react native device info using upper version which has been used let see if push works with 19.0.1 version 
         //End Push Notification
+
+        //This is addition for react device info
+        //firebaseIidVersion = "19.0.1" // default: "19.0.1"
+        googlePlayServicesIidVersion = "16.0.1"
+
+
     }
     repositories {
         google()

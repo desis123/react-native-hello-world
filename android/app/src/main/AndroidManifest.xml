@@ -37,8 +37,32 @@
         <category android:name="android.intent.category.DEFAULT" />
         <category android:name="android.intent.category.BROWSABLE" />
         <!-- Accepts URIs that begin with "http://taza-khobor.org/bd” -->
+        <data android:scheme="http"
+              android:host="taza-khobor.org"
+              android:pathPattern=".*"
+              android:pathPrefix="/" />
+        <!-- note that the leading "/" is required for pathPrefix-->
+    </intent-filter>
+
+
+
+   
+
+
+
+
+
+       <!--End Addition Deep linking-->
+
+
+        <!--Addition Deep linking-->
+         <intent-filter android:label="filter_view_https_tazakhobor">
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <!-- Accepts URIs that begin with "http://taza-khobor.org/bd” -->
         <data android:scheme="https"
-              android:host="bdkotha.com"
+              android:host="taza-khobor.org"
               android:pathPattern=".*"
               android:pathPrefix="/" />
         <!-- note that the leading "/" is required for pathPrefix-->
@@ -60,7 +84,7 @@
         <category android:name="android.intent.category.DEFAULT" />
         <category android:name="android.intent.category.BROWSABLE" />
         <!-- Accepts URIs that begin with "example://gizmos” -->
-        <data android:scheme="bdkotha"
+        <data android:scheme="tazakhobor"
               android:host="bd" />
     </intent-filter>
      

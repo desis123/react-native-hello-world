@@ -96,7 +96,7 @@ const Dashboard = ({navigation}) => {
           />
         </View> */}
         <RemotePushController />
-        <DashboardCom navigation ={navigation}/>
+        {/* <DashboardCom navigation ={navigation}/> */}
 
 <Text>Home Screen</Text>
             
@@ -212,6 +212,26 @@ const Tab_1 = createMaterialTopTabNavigator(
       লাইফষ্টাইল : Settings,
       খবর : Settings,
       জাতীয় : Settings,
+
+      মুক্তমত1 : Settings,
+       লাইফষ্টাইল1 : Settings,
+       খবর1 : Settings,
+       জাতীয়1 : Settings,
+
+     // মুক্তমত2 : Settings,
+     // লাইফষ্টাইল2 : Settings,
+      //খবর2 : Settings,
+      // জাতীয়2 : Settings,
+
+      // মুক্তমত3 : Settings,
+      // লাইফষ্টাইল3 : Settings,
+      // খবর3 : Settings,
+      // জাতীয়3 : Settings,
+
+      // মুক্তমত4 : Settings,
+      // লাইফষ্টাইল4 : Settings,
+      // খবর4 : Settings,
+      // জাতীয়4: Settings,
      
        
     },

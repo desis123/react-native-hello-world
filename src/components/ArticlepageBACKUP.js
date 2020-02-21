@@ -12,9 +12,10 @@ SafeAreaView, Alert ,Dimensions, Button ,Animated
 } from 'react-native' 
 import {ScrollView ,PinchGestureHandler , PanGestureHandler,State } from 'react-native-gesture-handler'
 import HTML from 'react-native-render-html'
-
-
-import SocialShare from '../shared/SocialShare';
+import ReactNativeZoomableView from '@dudigital/react-native-zoomable-view/src/ReactNativeZoomableView';
+import PinchZoomView from 'react-native-pinch-zoom-view';
+import { BottomTabBar } from 'react-navigation-tabs';
+import Share from 'react-native-share';
 
 
 
@@ -24,32 +25,32 @@ const Articlepage = ({data,itemIndex}) =>{
    // data =[{id:1},{id:2},{id:3},{id:4},{id:5},{id:6},{id:7},{id:8},{id:9},{id:10}]
 
 
+// console.log("newdata:")
+ console.log(data);
+ console.log(itemIndex);
+// var foo = new Array(9);
+// foo.splice(2, 0, data[2]);
+
+//console.log(data);
 
 
 
-   const [newData,setNewData] = useState(data);
+let array2 = data.map((a,index) => {
+  var returnValue = {...a};
+
+  if (index !== itemIndex) {
+    returnValue.fulltext = "";
+    //console.log("I am here");
+  }
+
+  return returnValue
+})
+//console.log(itemIndex);
+//console.log(array2);
 
 
-   useEffect(() => {
-      
-       
-   console.log(newData);
-   
-      let array2 = data.map((a,index) => {
-       var returnValue = {...a};
-     
-       if (index !== itemIndex) {
-         returnValue.fulltext = "";
-         //console.log("I am here");
-       }
-     
-       return returnValue
-     })
-   
-     
-     setNewData(array2);
-   
-     }, [data]); 
+
+const [newData,setNewData] = useState(array2);
 
 
     //const[loadData,setLoadData] = useState(data[itemIndex]);
@@ -259,13 +260,13 @@ setContentFontSize(BASE_FONT_SIZE*event.nativeEvent.scale);
          
           </PinchGestureHandler>    
          
-       <BottomToolbar url={item.link} message={item.title}/>
+       <BottomToolbar />
       
        </View>
     )
   }
 
-const BottomToolbar =({url,message})=>{
+const BottomToolbar =()=>{
 
   const { width } = Dimensions.get('window') 
   return(
@@ -273,7 +274,7 @@ const BottomToolbar =({url,message})=>{
     style ={{
       
       width:width,
-    height: 50,
+    height: 80,
 
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
@@ -282,10 +283,7 @@ const BottomToolbar =({url,message})=>{
     elevation: 5
 
   }}
-   >
-
-  <SocialShare url={url} message={message}/>
-
+   ><Text>This </Text>
    </View>
   )
 }

@@ -1,4 +1,4 @@
-import React, { Component , useState } from 'react'
+import React, { Component  } from 'react'
 import 
 {
 Text,
@@ -7,33 +7,30 @@ ActivityIndicator
 } from 'react-native' 
 import {  persistor } from '../redux/store'
 import { PersistGate } from 'redux-persist/integration/react';
-import {
-  LocalNotification,
-  ScheduledLocalNotification
-} from '../services/LocalPushController'
+// import {
+//   LocalNotification,
+//   ScheduledLocalNotification
+// } from '../services/LocalPushController'
 
-
-import RemotePushController from '../services/RemotePushController'
-
-
+import { useLinking } from '@react-navigation/native';
+ import RemotePushController from '../services/RemotePushController'
+ import DeepLinkController from '../services/DeepLinkController'
+import FirstInstallCheckerController from '../services/FirstInstallCheckerController'
 
 import Homepage from '../components/Homepage';
 
 
 const Home = ({navigation}) => {
 
-   
   
   
-    
-  
-      const handleButtonPress = () => {
-          LocalNotification()
-        }
+      // const handleButtonPress = () => {
+      //     LocalNotification()
+      //   }
       
-        const handleScheduleNotification = () => {
-          ScheduledLocalNotification()
-        }
+      //   const handleScheduleNotification = () => {
+      //     ScheduledLocalNotification()
+      //   }
       
       return (
   
@@ -51,10 +48,13 @@ const Home = ({navigation}) => {
               onPress={handleScheduleNotification}
             />
           </View>  */}
-          {/* <RemotePushController /> */}
-   <PersistGate loading={<ActivityIndicator size="large" color="#0000ff" />} persistor={persistor}>
+         <FirstInstallCheckerController navigation={navigation} />
+          <RemotePushController navigation={navigation} />   
+          <DeepLinkController navigation={navigation} />
+
+    <PersistGate loading={<ActivityIndicator size="large" color="#0000ff" />} persistor={persistor}> 
          <Homepage navigation ={navigation} />
-    </PersistGate>  
+      </PersistGate>    
   {/* <Text>Home Screen</Text>
               
               <Button

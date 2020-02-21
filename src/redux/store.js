@@ -20,12 +20,18 @@ import thunk from "redux-thunk";
 import { persistStore, persistReducer } from 'redux-persist';
 
 // import storage from 'redux-persist/lib/storage';
+
+import SQLiteStorage from  'redux-persist-sqlite-storage';
 import SQLite from 'react-native-sqlite-storage';
-import SQLiteStorage from 'redux-persist-sqlite-storage';
 
-const storeEngine = SQLiteStorage(SQLite);
+const defaultConfig  = {
+  name: 'mystoragkee3o9',
+  location: 'default'
+};
 
-//SQLite.DEBUG(true);
+const storeEngine = SQLiteStorage(SQLite, defaultConfig);
+
+SQLite.DEBUG(false);
 SQLite.enablePromise(true);
 
 
@@ -33,7 +39,7 @@ SQLite.enablePromise(true);
 // // Middleware: Redux Persist Config
 // const persistConfig = {
 //   // Root
-//   key: 'root2',
+//   key: 'root',
 //   // Storage Method (React Native)
 //   storage: AsyncStorage,
   
@@ -42,10 +48,12 @@ SQLite.enablePromise(true);
 
 
 const persistConfig = {
-  key: 'root33443',
+  key: 'root',
   storage: storeEngine,
-  debug: true
+  //debug: true
+ 
 }
+
 
 const persistedReducer = persistReducer(persistConfig, reducers);
 

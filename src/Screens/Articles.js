@@ -1,6 +1,7 @@
 import React from 'react'
-import {Text,View} from 'react-native'
+import {Text,View , BackHandler} from 'react-native'
 import Articlepage from '../components/Articlepage'
+
 
 const Articles  = ({ route, navigation }) => {
   
@@ -13,20 +14,25 @@ const Articles  = ({ route, navigation }) => {
     
       const {id} = route.params;
       const {data} = route.params;
-    //console.log(data);
-    //console.log(id)
-      
+    // console.log(data);
+    // console.log(id)
+      //if data is empty , that means request came from push notification or deffered deep linking, then use axios
+      //to fetch data for individual 
     
       //This is required to open flatlist on intiial scroll
       
       const indexPostionOfArticle = data.findIndex(obj => obj.id == id)
      
     
-    
+ 
+
+
+     
     
     
         return (
-          <Articlepage data = {data} itemIndex={indexPostionOfArticle}  />
+           <Articlepage data = {data} itemIndex={indexPostionOfArticle}  />
+          
           // <View>
           //  <Text> Index Position :  {indexPostionOfArticle} </Text>
          

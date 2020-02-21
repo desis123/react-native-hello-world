@@ -6,7 +6,7 @@
  * @flow
  */
 
-import React, {useState} from 'react';
+import React, {useState , useRef} from 'react';
 import {
   Alert,
   Button,
@@ -26,20 +26,21 @@ import {
 import Share from 'react-native-share';
 
 import images from './images/imagesBase64';
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import * as Animatable from 'react-native-animatable';
+import Icon from 'react-native-vector-icons/FontAwesome';
+// import * as Animatable from 'react-native-animatable';
 
 import AwesomeButton from "react-native-really-awesome-button";
+import BottomSheet from 'reanimated-bottom-sheet'
 
 
-const AnimatableIcon = Animatable.createAnimatableComponent(Icon);
+// const AnimatableIcon = Animatable.createAnimatableComponent(Icon);
 
 
 
 const App = () => {
 
 
-
+  const bottomSheetRef = useRef()
 
   const[animatedValue] = useState(new Animated.Value(1));
  
@@ -137,11 +138,11 @@ const App = () => {
 
 
 
-  const shareSingleImage = async () => {
+  const shareSingleImage = async (provider) => {
     const shareOptions = {
       title: 'This is Title',
       url: "http://dailyrightnow.com/more/law/5171-2020-01-14-06-58-19",
-      social: Share.Social.FACEBOOK,
+      social:  Share.Social[provider] ,
       //message : "This is message"
       
       
@@ -181,6 +182,12 @@ const App = () => {
   };
 
   
+const handleBottomSheet = () => {
+  bottomSheetRef.current.snapTo(0)
+  
+console.log("I am bootm sheet")
+
+}  
 
 
 const  handlePressIn = () => {
@@ -259,11 +266,31 @@ const animatedStyle = {
 }
 
 
+const renderContent =()=>{
+ return(
+   <View>
+     <Text>
+
+        This is render Text
+     </Text>
+
+   </View>
+
+ )
+
+}
+
 
   return (
     <View style={styles.container}>
 
-      
+<BottomSheet
+          ref={bottomSheetRef}
+          snapPoints={[500, 200, 100, 0]}
+          renderContent={renderContent}
+          initialSnap={1}
+
+        />
       <Text style={styles.welcome}>Welcome to React Native Share Example!</Text>
       <View style={styles.optionsRow}>
         <View style={styles.button}>
@@ -283,7 +310,7 @@ const animatedStyle = {
     }}>
 
 
-<FbButton />
+<FbButton  shareSingleImage={shareSingleImage} />
 <TouchableWithoutFeedback 
 onPressIn={handlePressIn}
 onPressOut={handlePressOut}
@@ -301,7 +328,7 @@ onPressOut={handlePressOut}
 <TouchableWithoutFeedback 
 onPressIn={handlePressIn1}
 onPressOut={handlePressOut1}
-
+onPress={handleBottomSheet}
 
 >
           <Animated.Image
@@ -323,13 +350,13 @@ onPressOut={handlePressOut1}
  
 
 style={styles.button} type="facebook" size="medium">
-          <Icon name="facebook" size={30}  style={[{color:"#3b5998"}]} />
+          <Icon name="whatsapp" size={30}  style={{color:"#25D366"}} />
           </AwesomeButton>
           
-        <AnimatableIcon name="facebook-messenger" size={30}  style={{color:"#0084FF"}} />
-
-       
-
+        {/* <AnimatableIcon name="facebook-messenger" size={30}  style={{color:"#0084FF"}} /> */}
+<View style={{borderRadius:50}} >
+        <Icon name="facebook" size={30}  style={{color:"#25D366" }} />
+        </View>
         <Icon name="whatsapp" size={30}  style={{color:"#25D366"}} />
         <Icon name="google" size={30}  style={{color:"#FF3E30"}} />
         <Icon name="share-alt" size={30}  style={{color:"#3b5998"}} />
@@ -424,12 +451,24 @@ function AweButton() {
   return <AwesomeButton>Text</AwesomeButton>;
 }
 
-function FbButton(){
-  return <AwesomeButton progress ={true}  borderRadius={50} height={26} width={26} >
+function FbButton({shareSingleImage }){
+  return <AwesomeButton 
+    progress ={true} 
+    raiseLevel={2}
+    backgroundColor ={'#fff'} 
+    backgroundDarker ={'#fff'}
+    backgroundShadow ={'rgba(0, 0, 0, 0.1)'} 
+    borderColor ={'#ffffff'} 
+    borderRadius={50} 
+    height={40} 
+    width={40} 
+   onPress={next => {
+     shareSingleImage("MESSENGER").then(next())
+    }}>
     <Image
             //We are showing the Image from online
             source={
-             require('./images/what.png')}
+             require('./images/mes.png')}
             
             style={styles.ImageIconStyle}
             
