@@ -1,50 +1,57 @@
-import React, { useRef } from "react";
-import { View, Button , Text } from "react-native";
-import RBSheet from "react-native-raw-bottom-sheet";
+import React from 'react'
+import 
+{
+ YellowBox,
+ ActivityIndicator,
+ AppState
+} from 'react-native' 
 
-export default function App() {
-  const refRBSheet = useRef();
-  return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "#000"
-      }}
-    >
-      <Button title="OPEN BOTTOM SHEET" onPress={() => refRBSheet.current.open()} />
-      <RBSheet
-        ref={refRBSheet}
-        closeOnDragDown={true}
-        closeOnPressMask={true}
-        customStyles={{
-          wrapper: {
-            backgroundColor: "transparent"
-          },
-          draggableIcon: {
-            backgroundColor: "#000"
-          },
-          container: {
-            flex: 1,
-            flexDirection: 'column',
-            borderTopRightRadius: 50,
-          },
-        }}
-      >
-        <YourOwnComponent />
-      </RBSheet>
-    </View>
-  );
-}
+import { NavigationNativeContainer ,useLinking, } from '@react-navigation/native';
+import { enableScreens  } from 'react-native-screens';
+import { Provider } from "react-redux";
+import { store , persistor } from './src/redux/store'
+import Stacknav from './src/navigator/Stacknav'
 
-const YourOwnComponent =()=>{
-    return(
-        <View style={
-            {
-                borderRadius:20,
 
-            }
-        }><Text>My Coponenent </Text></View>
+import Tabnav from './src/navigator/Tabnav'
+
+
+
+import { PersistGate } from 'redux-persist/integration/react';
+
+
+
+
+// console.log(navigationRef);
+
+const App =()=>{
+
+ 
+  YellowBox.ignoreWarnings(['Warning:']);
+  YellowBox.ignoreWarnings(['Warning: Async Storage has been extracted from react-native core']);
+
+
+    enableScreens();
+    
+  
+return(
+
+     
+      
+    <Provider store={store}>
+
+  {/* <PersistGate loading={<ActivityIndicator size="large" color="#0000ff" />} persistor={persistor}>  */}
+    <NavigationNativeContainer >
+    <Stacknav />
+   </NavigationNativeContainer>
+   {/* </PersistGate>   */}
+
+   </Provider>    
+
+    
     )
 }
+
+
+
+export default App 
