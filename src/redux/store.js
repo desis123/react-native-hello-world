@@ -25,7 +25,7 @@ import SQLiteStorage from  'redux-persist-sqlite-storage';
 import SQLite from 'react-native-sqlite-storage';
 
 const defaultConfig  = {
-  name: 'mystoragkee3o9',
+  name: 'mystorage',
   location: 'default'
 };
 
@@ -48,7 +48,7 @@ SQLite.enablePromise(true);
 
 
 const persistConfig = {
-  key: 'root',
+  key: 'root2',
   storage: storeEngine,
   //debug: true
  

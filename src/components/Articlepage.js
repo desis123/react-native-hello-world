@@ -8,14 +8,17 @@ FlatList,
 Image,
 TouchableWithoutFeedback,
 Keyboard,
-SafeAreaView, Alert ,Dimensions, Button ,Animated
+SafeAreaView, Alert ,Dimensions, Button ,Animated,TouchableHighlight
 } from 'react-native' 
 import {ScrollView ,PinchGestureHandler , PanGestureHandler,State } from 'react-native-gesture-handler'
 import HTML from 'react-native-render-html'
 
 
 import SocialShare from '../shared/SocialShare';
-
+import SocialShareBigButton from '../shared/SocialShareBigButton';
+import LatestArticlesMemo from '../shared/LatestArticles'
+//import RelatedArticles from '../shared/RelatedArticles'
+import RBSheet from "react-native-raw-bottom-sheet";
 
 
 
@@ -33,7 +36,7 @@ const Articlepage = ({data,itemIndex}) =>{
    useEffect(() => {
       
        
-   console.log(newData);
+  // console.log(newData);
    
       let array2 = data.map((a,index) => {
        var returnValue = {...a};
@@ -62,9 +65,13 @@ const Articlepage = ({data,itemIndex}) =>{
      
     }
 
+//get The Category Name from the data, so for the Latest .. the related would be different.
+
 
     return (
     
+
+
 
          <FlatList 
 
@@ -111,10 +118,10 @@ const Articlepage = ({data,itemIndex}) =>{
        
 
       
-      //ListHeaderComponent ={()=><View><Text>This is Header</Text></View>}
+     //  ListFooterComponent ={()=><View><Text>This is Header</Text></View>}
        
      />
-
+ 
     )
 
 }
@@ -124,18 +131,32 @@ export default Articlepage
 
 const ArticleItem = ({item,itemIndex}) => { //instead of passing arguments as just props, we destructing the property of props inside argument
 
+const cat_title = item.category_title;
+
+
+
+
+
+const renderLatest = ()=>{
+  if(item.fulltext !==''){
+    return <LatestArticlesMemo />
+  } 
+}
+
+
   const { width } = Dimensions.get('window')
   SCREEN_HEIGHT = Dimensions.get('window').height;
   BASE_FONT_SIZE = 18
    const[scrollWidth,setScrollWidth] = useState(width);
    const[contentFontSize,setContentFontSize] = useState(BASE_FONT_SIZE);
- scale = new Animated.Value(1)
+  //scale = new Animated.Value(1)
+  const [scale] = React.useState(new Animated.Value(1))
+ const refRBSheet = React.useRef();
 
-
-myGesture = Animated.event(
+const myGesture = Animated.event(
   [
     {
-      nativeEvent: { scale: this.scale }
+      nativeEvent: { scale: scale }
     }
   ],
   {
@@ -146,7 +167,7 @@ myHandler =(event)=> {
 //console.log(event);
 //console.log("state:"+event.nativeEvent.state);
 //console.log("oldState:"+event.nativeEvent.oldState);
-console.log(event.nativeEvent);
+//console.log(event.nativeEvent);
 
 // if(event.nativeEvent.numberOfPointers ===1 ){
 //   setScrollWidth(width);
@@ -163,7 +184,7 @@ setContentFontSize(BASE_FONT_SIZE*event.nativeEvent.scale);
 
   //if (event.nativeEvent.state === State.ACTIVE) {
     
-    Animated.spring(this.scale, {
+    Animated.spring(scale, {
       toValue: 1,
       useNativeDriver: true
     }).start()
@@ -176,9 +197,9 @@ setContentFontSize(BASE_FONT_SIZE*event.nativeEvent.scale);
 
 
       <PinchGestureHandler
-      onGestureEvent={this.myGesture }
+      onGestureEvent={myGesture }
  
-       onHandlerStateChange={this.myHandler} 
+       onHandlerStateChange={myHandler} 
    >
     
      <Animated.ScrollView 
@@ -190,8 +211,8 @@ setContentFontSize(BASE_FONT_SIZE*event.nativeEvent.scale);
 
          
        transform: [
-        { scaleX: this.scale },
-        { scaleY: this.scale },
+        { scaleX: scale },
+        { scaleY: scale },
       ]
      }}
 
@@ -253,14 +274,71 @@ setContentFontSize(BASE_FONT_SIZE*event.nativeEvent.scale);
     {/* <HTML html={item.fulltext}/>  */}
         
     
-           </View> 
-           
+           </View>
+         
+          {renderLatest()} 
+        
+        
+
           </Animated.ScrollView>  
          
           </PinchGestureHandler>    
-         
-       <BottomToolbar url={item.link} message={item.title}/>
+ {/* Start Bottom Action       */}
+<View
+      style={{
+        width: 50,  
+        height: 50,   
+        borderRadius: 50,            
+        backgroundColor: '#ee6e73',                                    
+        position: 'absolute',                                          
+        bottom: 60,                                                    
+        right: 30, 
+
+      }}
+    >
+
+<TouchableWithoutFeedback onPress={() =>{
+
+refRBSheet.current.open()
+}
+  
+   }>
+      <Image
+       style={{
+         width: 50,
+         height: 50,
+
+       }}
+        source={require('../../images/share.png')}
+      />
+    </TouchableWithoutFeedback>
+
+    
       
+      <RBSheet
+        ref={refRBSheet}
+        height={220}
+        closeOnDragDown={true}
+        closeOnPressMask={true}
+        customStyles={{
+          container: {
+            borderTopRightRadius:20,
+            borderTopLeftRadius:20,
+            
+            flexDirection: 'column',
+          }
+        }}
+       
+      >
+        <SocialShareBigButton  url={item.link} message={item.title} refRBSheet={refRBSheet}/>
+      </RBSheet>
+    </View>
+
+ {/* End Bottom Action */}
+
+
+       <BottomToolbar url={item.link} message={item.title}/>
+       
        </View>
     )
   }
@@ -272,7 +350,7 @@ const BottomToolbar =({url,message})=>{
     <View 
     style ={{
       
-      width:width,
+    width:width,
     height: 50,
 
     shadowColor: '#000',
@@ -289,4 +367,6 @@ const BottomToolbar =({url,message})=>{
    </View>
   )
 }
-  
+
+
+

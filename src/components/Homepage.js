@@ -45,7 +45,7 @@ const Homepage = ({navigation}) => {
     setTouchEnable(false);
 
     if (c.CATEGORIES.length >= page) {
-      const CAT_NAME = c.CATEGORIES_NAME[page - 1];
+      const CAT_NAME = c.CATEGORIES_NAME[page - 1]; /// Here -1 becasue "latest" is included in CATEGORIES_NAME array
 
     //   console.log("FOR REDUX:" + CAT_NAME);
     //   console.log("DATA FROM REDUX");
@@ -80,9 +80,15 @@ const Homepage = ({navigation}) => {
                  } 
           }
          
-      const cat_id = c.CATEGORIES[page - 1];
+      const cat_id = c.CATEGORIES[page - 2]; //Here it should be -2 , instead of -1 , because for page =1, it's latest url , for page =2 it's page -2 means 0 , which is exclusive array
+
+       if(page == 1){
+         var url = `${c.API_LATEST_URL}${c.API_KEY}`;
+       }else{
+        var url = `${c.API_URL}[${cat_id}]${c.API_KEY}`;
+      }
      
-      let url = `${c.API_URL}[${cat_id}]${c.API_KEY}`;
+      
       //const url = 'https://tutorialsha.com/api/json_key_data?page=${page}';
       console.log(url);
 
@@ -204,6 +210,7 @@ const getItemLayout = sectionListGetItemLayout({
     )
   }
 
+ // console.log(data);
   return (
 
 
@@ -251,7 +258,7 @@ const RenderItem = ({ item, index , data,navigation}) => {
           break;
       }
   }
-// console.log(newData.data);
+ //console.log(newData);
 
 // console.log(data);
 // console.log(index ) ;

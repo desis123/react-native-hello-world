@@ -19,8 +19,8 @@ initialState = {
     islam:"", //29
     weird:"" ,//23
     recipe :"", //30
-    abroad :"" //24
-    
+    abroad :"", //24
+    latest:""
 //[26,8,7,18,19,9,13,14,10,11,33,15,22,12,16,29,23,30,24]
 
 //http://taza-khobor.org/bd/index.php?option=com_hoicoiapi&task=getContents&catid=[26,8,7,18,19,9,13,14,10,11,33,15,22,12,16,29,23,30,24]&token=amitumishe

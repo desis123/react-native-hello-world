@@ -133,6 +133,8 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        //This addition for react native firebase multidex problem during compiletion
+        // multiDexEnabled true 
     }
     splits {
         abi {
@@ -198,7 +200,12 @@ dependencies {
     //Addition Rn Bolb
     implementation project(':rn-fetch-blob')  
     //End Rn Bolb
-    
+    //Addition RN Firebase
+    implementation project(path: ":@react-native-firebase_app")
+
+    //End RN Firebase
+
+
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
     implementation 'androidx.appcompat:appcompat:1.1.0-rc01'

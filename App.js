@@ -18,6 +18,7 @@ import Tabnav from './src/navigator/Tabnav'
 
 
 import { PersistGate } from 'redux-persist/integration/react';
+import firebase from '@react-native-firebase/app';
 
 
 
