@@ -1,10 +1,11 @@
 import React from 'react'
-import {Text,View , BackHandler} from 'react-native'
+import {StyleSheet,View , ActivityIndicator} from 'react-native'
 import Articlepage from '../components/Articlepage'
-
+import { InteractionManager } from 'react-native';
 
 const Articles  = ({ route, navigation }) => {
   
+  const [isVisible, setIsVisible] = React.useState(false);
 
     //    Category.navigationOptions = {
     //     title: "My Own Title",
@@ -24,38 +25,53 @@ const Articles  = ({ route, navigation }) => {
       const indexPostionOfArticle = data.findIndex(obj => obj.id == id)
      
     
- 
+      React.useEffect(() => {
+       
+        const defer = InteractionManager.runAfterInteractions(() =>
+          setIsVisible(true)
+        );
+    
+        return () => defer.cancel();
+      }, []);
 
 
      
-    
-    
+      if (!isVisible) {
         return (
-           <Articlepage data = {data} itemIndex={indexPostionOfArticle}  />
-          
-          // <View>
-          //  <Text> Index Position :  {indexPostionOfArticle} </Text>
-         
-          // </View>
-    //         <View>
-    //             <Text>Category Screen</Text>
-    
-    //              <Button
-    //             title="Go to Detail"
-    //           onPress={() => navigation.navigate('জাতীয়' ,
-    //           {
-    //             itemId: Math.floor(Math.random() * 100),
-    //           }
-    //           )} /> 
-    
-    // <Text>itemId: {JSON.stringify(navigation.getParam('id', 'NO-ID'))} </Text>
-    // <Text>
-    //           otherParam:
-    //           {JSON.stringify(navigation.getParam('data', 'default value'))}
-    //         </Text>
-    
-    //         </View>
+        <View style = {styles.container}>
+        <ActivityIndicator
+           
+           color = '#bc2b78'
+           size = "large"
+           style = {styles.activityIndicator}/>
+        </View>
         )
+      }
+  
+      return (
+        <Articlepage data = {data} itemIndex={indexPostionOfArticle}  />
+        // <View><Text>I am ready to go</Text></View>
+      );
+
+
+    
+      
     } 
     
-    export default Articles
+    export default Articles 
+
+
+    const styles = StyleSheet.create ({
+      container: {
+         flex: 1,
+         justifyContent: 'center',
+         alignItems: 'center',
+         marginTop: 70
+      },
+      activityIndicator: {
+         flex: 1,
+         justifyContent: 'center',
+         alignItems: 'center',
+         height: 80
+      }
+   })

@@ -1,11 +1,11 @@
 import React from 'react'
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createStackNavigator ,TransitionPresets } from '@react-navigation/stack';
 
 import Tabnav from './Tabnav'
 import Articles from '../Screens/Articles'
 import IndividualArticle from '../Screens/IndividualArticle'
 
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
 
 function Stacknav() {
 
@@ -21,7 +21,7 @@ function Stacknav() {
         options={{
           
          // presentation: "modal",
-         //...TransitionPresets.SlideFromRightIOS,
+         ...TransitionPresets.SlideFromRightIOS,
   
         }}
         />

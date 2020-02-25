@@ -8,9 +8,9 @@ FlatList,
 Image,
 TouchableWithoutFeedback,
 Keyboard,
-SafeAreaView, Alert ,Dimensions, Button ,Animated,TouchableHighlight
+ActivityIndicator, Alert ,Dimensions, Animated
 } from 'react-native' 
-import {ScrollView ,PinchGestureHandler , PanGestureHandler,State } from 'react-native-gesture-handler'
+import {ScrollView ,PinchGestureHandler , State } from 'react-native-gesture-handler'
 import HTML from 'react-native-render-html'
 
 
@@ -43,6 +43,8 @@ const Articlepage = ({data,itemIndex}) =>{
      
        if (index !== itemIndex) {
          returnValue.fulltext = "";
+         returnValue.thumbnail = "";
+         returnValue.title = "";
          //console.log("I am here");
        }
      
@@ -221,7 +223,7 @@ setContentFontSize(BASE_FONT_SIZE*event.nativeEvent.scale);
       
 
     
-<Image
+      {item.thumbnail !== "" ?<Image
         source={{
           uri: item.thumbnail
         }}
@@ -236,7 +238,7 @@ setContentFontSize(BASE_FONT_SIZE*event.nativeEvent.scale);
 
         }}
       
-      />
+      />:<ActivityIndicator/>}
     
  
         <View 
@@ -253,8 +255,11 @@ setContentFontSize(BASE_FONT_SIZE*event.nativeEvent.scale);
         > 
     
 {/* <Text style={{fontSize : contentFontSize}} >ScrollWidth : {scrollWidth}FontSize:{contentFontSize}</Text> */}
-<Text style={{marginTop: 40,fontSize:29,fontWeight:"bold"}}>
-{item.title}</Text>
+{item.title !== "" &&<Text style={{marginTop: 40,fontSize:29,fontWeight:"bold"}}>
+{item.title}</Text>}
+    
+    
+    
      {item.fulltext !== "" &&<HTML 
      html={item.fulltext + contentFontSize} 
      baseFontStyle ={ {fontSize: contentFontSize} }
@@ -268,6 +273,8 @@ setContentFontSize(BASE_FONT_SIZE*event.nativeEvent.scale);
       }}
 
      />}  
+
+  
 
       
      
